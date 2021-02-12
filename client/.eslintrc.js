@@ -34,6 +34,7 @@ module.exports = {
     'jsx-quotes': ['error', 'prefer-double'],
     'import/newline-after-import': 0,
     'import/prefer-default-export': 0,
+    'import/no-named-as-default': 0,
     'jsx-a11y/anchor-is-valid': 0,
     'max-len': ['error', 119],
     'no-nested-ternary': 0,
