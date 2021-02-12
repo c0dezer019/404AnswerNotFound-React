@@ -7,6 +7,7 @@ import {
   Menu as MenuIcon,
   Notifications as NotificationsIcon,
   Search as SearchIcon,
+  MoreVert as MoreIcon,
 } from '@material-ui/icons';
 import headerStyles from '../styles/material-ui/headerStyles';
 import logo from '../images/logo.png';
@@ -41,7 +42,7 @@ const Header = ({ user, mode }) => {
         >
           <MenuIcon />
         </IconButton>
-        <img src={ logoStyle } alt="Logo" />
+        <img className={ headerClasses.logo } src={ logoStyle } alt="Logo" />
         {/* Add search style */ }
         <div className={ headerClasses.grow } />
         <div className={ headerClasses.search }>
@@ -61,7 +62,7 @@ const Header = ({ user, mode }) => {
             />
           </div>
         </div>
-        <div>
+        <div className={ headerClasses.sectionDesktop }>
           <IconButton aria-label={ `show ${ notifications.length } new notifications` } color="inherit">
             <Badge badgeContent={ notifications.length } color="secondary">
               <NotificationsIcon />
@@ -69,6 +70,15 @@ const Header = ({ user, mode }) => {
           </IconButton>
           <IconButton>
             <AccountCircle />
+          </IconButton>
+        </div>
+        <div className={ headerClasses.sectionMobile }>
+          <IconButton
+            aria-label="show more"
+            aria-haspopup="true"
+            color="inherit"
+          >
+            <MoreIcon />
           </IconButton>
         </div>
       </Toolbar>
