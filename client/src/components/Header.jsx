@@ -9,18 +9,38 @@ import {
   Search as SearchIcon,
   MoreVert as MoreIcon,
 } from '@material-ui/icons';
+import ProfileMenu from './subcomponents/header/ProfileMenu';
 import headerStyles from '../styles/material-ui/headerStyles';
 import logo from '../images/logo.png';
 import logoDark from '../images/logo_dark.png';
 
 // eslint-disable-next-line no-unused-vars
 const Header = ({ user, mode }) => {
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState({});
   const [logoStyle, setLogoStyle] = useState(logo);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState({});
   const [notifications, setNotifications] = useState([]);
 
   const headerClasses = headerStyles();
+  const profileMenuId = 'account-menu';
+  const profileMobileMenuId = 'mobile-account-menu';
+
+  const handleAccountMenuOpen = e => {
+    setAnchorEl(e.currentTarget);
+    console.log(anchorEl);
+  };
+
+  const handleMobileAccountMenuOpen = e => {
+    setMobileMoreAnchorEl(e.currentTarget);
+  };
+
+  const handleAccountMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleMobileAccountMenuClose = () => {
+    setMobileMoreAnchorEl(null);
+  };
 
   useEffect(() => {
     if (mode === 'dark') setLogoStyle(logoDark);
@@ -32,57 +52,80 @@ const Header = ({ user, mode }) => {
   }, [mode]);
 
   return (
-    <AppBar position="static">
-      <Toolbar>
-        <IconButton
-          aria-label="open drawer"
-          className={ headerClasses.menuButton }
-          color="inherit"
-          edge="start"
-        >
-          <MenuIcon />
-        </IconButton>
-        <img className={ headerClasses.logo } src={ logoStyle } alt="Logo" />
-        {/* Add search style */ }
-        <div className={ headerClasses.grow } />
-        <div className={ headerClasses.search }>
-          {/* Add searchIcon style */ }
-          <div className={ headerClasses.searchIcon }>
-            <SearchIcon />
-          </div>
-          {/* Add mobile styles */ }
-          <div>
-            <InputBase
-              classes={{
-                root: headerClasses.inputRoot,
-                input: headerClasses.inputInput,
-              }}
-              inputProps={ { 'aria-label': 'search' } }
-              placeholder="Search"
-            />
-          </div>
-        </div>
-        <div className={ headerClasses.sectionDesktop }>
-          <IconButton aria-label={ `show ${ notifications.length } new notifications` } color="inherit">
-            <Badge badgeContent={ notifications.length } color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-          <IconButton>
-            <AccountCircle />
-          </IconButton>
-        </div>
-        <div className={ headerClasses.sectionMobile }>
+    <div>
+      <AppBar position="static">
+        <Toolbar>
           <IconButton
-            aria-label="show more"
-            aria-haspopup="true"
+            aria-label="open drawer"
+            className={ headerClasses.menuButton }
             color="inherit"
+            edge="start"
           >
-            <MoreIcon />
+            <MenuIcon />
           </IconButton>
-        </div>
-      </Toolbar>
-    </AppBar>
+          <img className={ headerClasses.logo } src={ logoStyle } alt="Logo" />
+          {/* Add search style */ }
+          <div className={ headerClasses.grow } />
+          <div className={ headerClasses.search }>
+            {/* Add searchIcon style */ }
+            <div className={ headerClasses.searchIcon }>
+              <SearchIcon />
+            </div>
+            {/* Add mobile styles */ }
+            <div>
+              <InputBase
+                classes={ {
+                  root: headerClasses.inputRoot,
+                  input: headerClasses.inputInput,
+                } }
+                inputProps={ { 'aria-label': 'search' } }
+                placeholder="Search"
+              />
+            </div>
+          </div>
+          <div className={ headerClasses.sectionDesktop }>
+            <IconButton aria-label={ `show ${ notifications.length } new notifications` } color="inherit">
+              <Badge badgeContent={ notifications.length } color="secondary">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+            <IconButton
+              aria-controls={ profileMenuId }
+              aria-haspopup="true"
+              aria-label="account of current user"
+              color="inherit"
+              edge="end"
+              id={ profileMenuId }
+              onClick={ handleAccountMenuOpen }
+            >
+              <AccountCircle />
+            </IconButton>
+          </div>
+          <div className={ headerClasses.sectionMobile }>
+            <IconButton
+              aria-controls={ profileMobileMenuId }
+              aria-haspopup="true"
+              aria-label="show more"
+              color="inherit"
+              id={ profileMobileMenuId }
+              onClick={ handleMobileAccountMenuOpen }
+            >
+              <MoreIcon />
+            </IconButton>
+          </div>
+        </Toolbar>
+      </AppBar>
+      <ProfileMenu
+        el={ anchorEl }
+        handleMenuClose={ handleAccountMenuClose }
+        handleMenuOpen={ handleAccountMenuOpen }
+      />
+      <ProfileMenu
+        el={ mobileMoreAnchorEl }
+        handleMobileMenuClose={ handleMobileAccountMenuClose }
+        handleMobileMenuOpen={ handleMobileAccountMenuOpen }
+      />
+    </div>
   );
 };
 
