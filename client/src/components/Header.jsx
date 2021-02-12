@@ -1,7 +1,14 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { AppBar, Badge, Menu, MenuItem, Toolbar, IconButton, InputBase} from '@material-ui/core';
-import { AccountCircle, MenuIcon, MoreIcon, NotificationsIcon, SearchIcon } from '@material-ui/icons';
+import { AppBar, Badge, Toolbar, IconButton, InputBase } from '@material-ui/core';
+import {
+  AccountCircle,
+  Menu as MenuIcon,
+  Notifications as NotificationsIcon,
+  Search as SearchIcon,
+} from '@material-ui/icons';
+import headerStyles from '../styles/material-ui/headerStyles';
 import logo from '../images/logo.png';
 import logoDark from '../images/logo_dark.png';
 
@@ -11,6 +18,8 @@ const Header = ({ user, mode }) => {
   const [logoStyle, setLogoStyle] = useState(logo);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const [notifications, setNotifications] = useState([]);
+
+  const headerClasses = headerStyles();
 
   useEffect(() => {
     if (mode === 'dark') setLogoStyle(logoDark);
@@ -24,38 +33,42 @@ const Header = ({ user, mode }) => {
   return (
     <AppBar position="static">
       <Toolbar>
-        {/* Add menuButton style */}
         <IconButton
           aria-label="open drawer"
+          className={ headerClasses.menuButton }
           color="inherit"
           edge="start"
         >
           <MenuIcon />
         </IconButton>
         <img src={ logoStyle } alt="Logo" />
-        {/* Add search style */}
-        <div>
-          {/* Add searchIcon style */}
-          <div>
+        {/* Add search style */ }
+        <div className={ headerClasses.grow } />
+        <div className={ headerClasses.search }>
+          {/* Add searchIcon style */ }
+          <div className={ headerClasses.searchIcon }>
             <SearchIcon />
           </div>
-          {/* Add mobile styles */}
+          {/* Add mobile styles */ }
           <div>
-            {/* Add root and input styles */}
             <InputBase
-              inputProps={{ 'aria-label': 'search' }}
+              classes={{
+                root: headerClasses.inputRoot,
+                input: headerClasses.inputInput,
+              }}
+              inputProps={ { 'aria-label': 'search' } }
               placeholder="Search"
             />
           </div>
         </div>
-        {/* classes.grow goes here */}
-        <div />
-        {/* Add sectionDesktop style */}
         <div>
           <IconButton aria-label={ `show ${ notifications.length } new notifications` } color="inherit">
             <Badge badgeContent={ notifications.length } color="secondary">
               <NotificationsIcon />
             </Badge>
+          </IconButton>
+          <IconButton>
+            <AccountCircle />
           </IconButton>
         </div>
       </Toolbar>
