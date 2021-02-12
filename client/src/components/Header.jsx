@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { AppBar, Badge, Toolbar, IconButton, InputBase, MenuItem, Menu } from '@material-ui/core';
@@ -13,12 +12,11 @@ import headerStyles from '../styles/material-ui/headerStyles';
 import logo from '../images/logo.png';
 import logoDark from '../images/logo_dark.png';
 
-// eslint-disable-next-line no-unused-vars
 const Header = ({ user, mode }) => {
   const [anchorEl, setAnchorEl] = useState({});
   const [logoStyle, setLogoStyle] = useState(logo);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState({});
-  const [notifications, setNotifications] = useState([]);
+  const [notifications] = useState([]);
 
   const headerClasses = headerStyles();
   const profileMenuId = 'account-menu';
@@ -53,8 +51,21 @@ const Header = ({ user, mode }) => {
       open={ isMenuOpen }
       onClose={ handleAccountMenuClose }
     >
-      <MenuItem onClick={ handleAccountMenuClose }>Profile</MenuItem>
-      <MenuItem onClick={ handleAccountMenuClose }>Preferences</MenuItem>
+      { Object.keys(user).length > 0 ? (
+        <>
+          <MenuItem onClick={ handleAccountMenuClose }>Profile</MenuItem>
+          <MenuItem onClick={ handleAccountMenuClose }>Preferences</MenuItem>
+        </>
+      ) : (
+        <>
+          <MenuItem>
+            Login
+          </MenuItem>
+          <MenuItem>
+            Register
+          </MenuItem>
+        </>
+      ) }
     </Menu>
   );
 
@@ -106,14 +117,16 @@ const Header = ({ user, mode }) => {
     <div>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            aria-label="open drawer"
-            className={ headerClasses.menuButton }
-            color="inherit"
-            edge="start"
-          >
-            <MenuIcon />
-          </IconButton>
+          <div className={ headerClasses.sectionMobile }>
+            <IconButton
+              aria-label="open drawer"
+              className={ headerClasses.menuButton }
+              color="inherit"
+              edge="start"
+            >
+              <MenuIcon />
+            </IconButton>
+          </div>
           <img className={ headerClasses.logo } src={ logoStyle } alt="Logo" />
           {/* Add search style */ }
           <div className={ headerClasses.grow } />
