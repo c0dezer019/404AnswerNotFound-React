@@ -1,4 +1,5 @@
 from django.db import models
+from string import Template
 
 
 class User(models.Model):
@@ -22,3 +23,7 @@ class User(models.Model):
 class Question(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     question_text = models.TextField()
+
+    def __str__(self):
+        t = Template('$user\'s Question')
+        return t.substitute(user=self.user)
