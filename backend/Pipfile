@@ -6,9 +6,17 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-django = "*"
-configparser = "*"
-pillow = "*"
+asgiref = "==3.3.1"
+configparser = "==5.0.2"
+django-cors-headers = "==3.7.0"
+djangorestframework = "==3.12.2"
+djangorestframework-jwt = "==1.11.0"
+psycopg2-binary = "==2.8.6"
+pytz = "==2021.1"
+sqlparse = "==0.4.1"
+Django = "==3.1.7"
+Pillow = "==8.1.1"
+PyJWT = "==1.7.1"
 
 [requires]
 python_version = "3.9"
