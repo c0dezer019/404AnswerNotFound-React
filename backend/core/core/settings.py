@@ -31,10 +31,16 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTHENTICATION_BACKENDS = {
+    'backend.auth0config.Auth0',
+    'django.contrib.auth.backends.ModelBackend'
+}
 
 # Application definition
 
 INSTALLED_APPS = [
+    'appauth.apps.AppAuthConfig',
+    'appcrud.apps.AppCrudConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,8 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
-    'anf_auth.apps.AnfAuthConfig',
-    'anf_crud.apps.AnfCrudConfig',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -58,8 +63,26 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_WHITELIST = (
-    'https://localhost:3000',
+    os.getenv("CORS_URL"),
 )
+
+SOCIAL_AUTH_TRAILING_SLASH = False
+
+SOCIAL_AUTH_AUTH0_DOMAIN = os.getenv("AUTH_DOMAIN")
+
+SOCIAL_AUTH_AUTH0_KEY = os.getenv("AUTH_CLIENT_ID")
+
+SOCIAL_AUTH_AUTH0_SECRET = os.getenv("AUTH_CLIENT_SECRET")
+
+SOCIAL_AUTH_AUTH0_SCOPE = [
+    'openid',
+    'profile',
+    'email',
+]
+
+LOGIN_URL = '/login/auth0'
+
+LOGIN_REDIRECT_URL = '/dashboard'
 
 ROOT_URLCONF = 'core.urls'
 
@@ -91,7 +114,7 @@ DATABASES = {
         'NAME': os.getenv("DB"),
         'USER': os.getenv("DB_USER"),
         'PASSWORD': os.getenv("DB_PASS"),
-        'HOST': os.getenv("HOST"),
+        'HOST': os.getenv("DB_HOST"),
         'PORT': '',
     }
 }
