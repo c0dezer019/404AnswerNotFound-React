@@ -41,6 +41,7 @@ AUTHENTICATION_BACKENDS = {
 INSTALLED_APPS = [
     'appauth.apps.AppAuthConfig',
     'appcrud.apps.AppCrudConfig',
+    'oauth.apps.OAuthConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
