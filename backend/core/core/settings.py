@@ -11,13 +11,13 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
 import os
 
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # Quick-start development settings - unsuitable for production
@@ -32,7 +32,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 AUTHENTICATION_BACKENDS = {
-    'backend.auth0config.Auth0',
+    'oauth.auth0config.Auth0',
     'django.contrib.auth.backends.ModelBackend'
 }
 
@@ -80,9 +80,9 @@ SOCIAL_AUTH_AUTH0_SCOPE = [
     'email',
 ]
 
-LOGIN_URL = '/login/auth0'
+LOGIN_URL = 'http://localhost:3000/login/auth0'
 
-LOGIN_REDIRECT_URL = '/dashboard'
+LOGIN_REDIRECT_URL = 'http://localhost:3000/dashboard'
 
 ROOT_URLCONF = 'core.urls'
 
@@ -157,3 +157,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+ENV_FILE = find_dotenv()
+if ENV_FILE:
+    load_dotenv(ENV_FILE)
